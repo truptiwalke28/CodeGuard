@@ -1,5 +1,6 @@
 
 import { useState } from 'react'
+import Editor from '@monaco-editor/react'
 import './App.css'
 
 function App() {
@@ -149,14 +150,29 @@ console.log(result)`)
               </select>
             </div>
 
-            <textarea
-              className="code-editor"
+            <div className='monaco-container'>
+              <Editor
+              height="320px"
+              language={
+                language === 'JavaScript' ? 'javascript' :
+                language === 'TypeScript' ? 'typescript' :
+                'php'
+              }
+              theme="vs-dark"
               value={code}
-              onChange={(event) => setCode(event.target.value)}
-              spellCheck={false}
-              placeholder="Paste your code here..."
-              aria-label="Code editor"
-            />
+              onChange={(value) => setCode(value ?? '')}
+              options={{
+                minimap: {enabled: false },
+                fontSize: 13,
+                fontFamily: 'JetBrains Mono, monospace',
+                automaticLayout: true,
+                wordWrap: 'on',
+                scrollBeyondLastLine: false,
+                padding: {top : 15},
+                tabSize: 2, 
+              }}
+              />
+            </div>
 
             <div className="editor-footer">
               <span>{language} · {code.split('\n').length} lines</span>
